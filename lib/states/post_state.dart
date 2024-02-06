@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_retrofit/providers/dio_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'api/api_service.dart';
-import 'model/post.dart';
+import '../api/api_service.dart';
+import '../model/post.dart';
 
 final postProvider = StateNotifierProvider<PostsNotifier, PostState>(
     (ref) => PostsNotifier(ref.watch(apiClientProvider)),

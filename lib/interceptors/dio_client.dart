@@ -11,7 +11,9 @@ class DioClient {
       // if (!options.path.contains('http')) {
       //   options.path = 'http://10.10.10.31:38080${options.path}';
       // }
-      // options.headers['Authorization'] = 'Bearer $accessToken';
+      if(accessToken != null) {
+        options.headers['Authorization'] = 'Bearer $accessToken';
+      }
       return handler.next(options);
     }, onError: (DioException error, handler) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();

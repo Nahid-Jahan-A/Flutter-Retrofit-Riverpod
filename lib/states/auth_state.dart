@@ -8,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../util/global_values.dart';
+
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
   (ref) => AuthNotifier(ref.watch(utkorshoApiClientProvider)),
 );
@@ -48,31 +50,36 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required String loginId,
     required String password,
   }) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
     Logger logger = Logger();
     Map<String, dynamic> payload = {"loginId": loginId, "password": password};
     logger.i(payload);
     try {
       state = AuthLoadingState();
       AuthData data = await _apiClient.login(payload);
-      // logger.i("Access token ${data.data.accessToken}");
+      logger.i("Access token ${data.data.accessToken.runtimeType}");
       // logger.i("Refresh token ${data.data.refreshToken}");
-      var accessToken = prefs.setString('accessToken', data.data.accessToken);
-      var refreshToken = prefs.setString('refreshToken', data.data.refreshToken);
-      logger.i(prefs.get('accessToken'));
-      logger.i(prefs.get('refreshToken'));
+      // accessToken = prefs.setString('accessToken', data.data.accessToken);
+      // refreshToken = prefs.setString('refreshToken', data.data.refreshToken);
+      // logger.i(prefs.get('accessToken'));
+      // logger.i(prefs.get('refreshToken'));
       state = AuthLoadedState(data: data);
+      // _saveResponseData(AuthLoadedState(data: data));
     } catch (e) {
       state = ErrorAuthState(message: e.toString());
       logger.i(e.toString());
     }
   }
 
-  void _saveResponseData(AuthLoadedState state) {
+  void _saveResponseData(AuthLoadedState state) async{
+    Logger logger = Logger();
     AuthData data = state.data;
-    final String accessToken = data.data.accessToken.toString();
-    final String refreshToken = data.data.refreshToken.toString();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('accessToken', data.data.accessToken);
+    prefs.setString('refreshToken', data.data.refreshToken);
 
+    logger.i(prefs.get('accessToken'));
+    logger.i(prefs.get('refreshToken'));
   }
 
 }

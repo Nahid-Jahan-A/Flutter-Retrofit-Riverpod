@@ -1,16 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_retrofit/api/api_service.dart';
+import 'package:flutter_retrofit/providers/sharerpref_provider.dart';
 import 'package:flutter_retrofit/screen/home_screen.dart';
 import 'package:flutter_retrofit/screen/login_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_riverpod/shared_preferences_riverpod.dart';
+
+
+late SharedPreferences prefs;
+final accessTokenPrefProvider = createPrefProvider<String?>(
+  prefs: (_) => prefs,
+  prefKey: "accessToken",
+  defaultValue: 'acc tkn',
+);
 
 void main() async{
-
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
+  prefs = await SharedPreferences.getInstance();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -26,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const HomePage(),
     );
   }
 }
@@ -54,19 +63,23 @@ void textIt() {
   final result = num1 + num2;
 }
 
+
+
 final currentDate = Provider((ref) => DateTime.now());
 
 class HomePage extends ConsumerWidget {
+
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref){
+    final accPrefProvider = ref.read(accessTokenPrefProvider);
     final date = ref.watch(currentDate);
     return Scaffold(
       appBar: AppBar(
         title: const Text("RiverPod"),
       ), body: Center(
-      child: Text(date.toIso8601String(), style: Theme.of(context).textTheme.headline4),
+      child: Text(accPrefProvider ?? "No value", style: Theme.of(context).textTheme.headline4),
     ),
     );
   }

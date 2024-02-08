@@ -544,6 +544,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  shared_preferences_riverpod:
+    dependency: "direct main"
+    description:
+      name: shared_preferences_riverpod
+      sha256: "8f929c70622cb794a3688ead2f7706a72b9d6146bfa6ca76e043a37c7d9fbe88"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   shared_preferences_web:
     dependency: transitive
     description:

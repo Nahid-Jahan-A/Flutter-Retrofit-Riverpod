@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_retrofit/interceptors/dio_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../states/auth_state.dart';
@@ -11,6 +12,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final DioClient client = DioClient();
   final TextEditingController _loginIdController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -19,6 +21,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     _loginIdController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
   }
 
   void _handleLoginClick() {
@@ -46,8 +54,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             TextFormField(
               controller: _loginIdController,
               decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                label: Text("Login ID")
+                  border: OutlineInputBorder(),
+                  label: Text("Login ID")
               ),
             ),
             const SizedBox(height: 16),
@@ -59,11 +67,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(onPressed: _handleLoginClick, child: const Text("Login")),
+            ElevatedButton(onPressed: () {
+              _handleLoginClick();
+            }, child: const Text("Login")),
           ],
         ),
       ),
     );
   }
-
 }

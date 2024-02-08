@@ -23,8 +23,6 @@ abstract class ApiClient {
 
   @GET(Apis.posts)
   Future<List<Post>> getPost();
-  // @GET('/tasks')
-  // Future<Task> getTasks(@Header('Content-Type') String contentType);
 }
 
 @RestApi(baseUrl: Apis.UTKORSHO_BASE_URL)

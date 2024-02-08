@@ -10,15 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_riverpod/shared_preferences_riverpod.dart';
 
 
-late SharedPreferences prefs;
-final accessTokenPrefProvider = createPrefProvider<String?>(
-  prefs: (_) => prefs,
-  prefKey: "accessToken",
-  defaultValue: 'acc tkn',
-);
+
 
 void main() async{
-  prefs = await SharedPreferences.getInstance();
+  // prefs = await SharedPreferences.getInstance();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -35,7 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const LoginScreen(),
     );
   }
 }

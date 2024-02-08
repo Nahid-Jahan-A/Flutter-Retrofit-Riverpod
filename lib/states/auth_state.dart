@@ -64,7 +64,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       // logger.i(prefs.get('accessToken'));
       // logger.i(prefs.get('refreshToken'));
       state = AuthLoadedState(data: data);
-      // _saveResponseData(AuthLoadedState(data: data));
+      _saveResponseData(AuthLoadedState(data: data));
     } catch (e) {
       state = ErrorAuthState(message: e.toString());
       logger.i(e.toString());

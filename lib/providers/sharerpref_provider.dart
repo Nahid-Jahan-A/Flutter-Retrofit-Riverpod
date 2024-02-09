@@ -5,12 +5,12 @@ import 'package:shared_preferences_riverpod/shared_preferences_riverpod.dart';
 final sharedPrefsProvider = FutureProvider<SharedPreferences>(
     (_) async => await SharedPreferences.getInstance());
 
-late SharedPreferences prefs;
-final accessTokenPrefProvider = createPrefProvider<String?>(
-  prefs: (_) => prefs,
-  prefKey: "accessToken",
-  defaultValue: 'acc tkn',
-);
+// late SharedPreferences prefs;
+// final accessTokenPrefProvider = createPrefProvider<String?>(
+//   prefs: (_) => prefs,
+//   prefKey: "accessToken",
+//   defaultValue: 'acc tkn',
+// );
 
 
 class TokenProvider {

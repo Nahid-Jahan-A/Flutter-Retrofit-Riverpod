@@ -9,12 +9,9 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_riverpod/shared_preferences_riverpod.dart';
 
-
-
-
-void main() async{
+void main() async {
   // prefs = await SharedPreferences.getInstance();
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -30,15 +27,17 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const HomePage(),
     );
   }
 }
 
+
+//Practice Code
 extension OptionalInfixAddition<T extends num> on T? {
-  T? operator + (T? other) {
+  T? operator +(T? other) {
     final shadow = this;
-    if(shadow != null) {
+    if (shadow != null) {
       return shadow + (other ?? 0) as T;
     } else {
       return null;
@@ -46,36 +45,52 @@ extension OptionalInfixAddition<T extends num> on T? {
   }
 }
 
+
+//Practice class
 class Counter extends StateNotifier<int?> {
-  Counter(super.state);
-  void increment() => state == null ? 1 : state + 1;
-  int? get value => state;
+  Counter() : super(null);
+
+  var count = 0;
+
+  void increment() => count = count + 1;
+  int? get value => count;
 }
 
-void textIt() {
-  const int? num1 = 1;
-  const int num2 = 1;
-  final result = num1 + num2;
-}
-
-
+//Practice code
+final counterProvider =
+StateProvider((ref) => 0);
 
 final currentDate = Provider((ref) => DateTime.now());
 
+//Practice class widget
 class HomePage extends ConsumerWidget {
-
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref){
-    final accPrefProvider = ref.read(accessTokenPrefProvider);
-    final date = ref.watch(currentDate);
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("RiverPod"),
-      ), body: Center(
-      child: Text(accPrefProvider ?? "No value", style: Theme.of(context).textTheme.headline4),
-    ),
+      ),
+      body: Center(
+          child: Column(
+        children: [
+          Consumer(
+            builder: (context, ref, child) {
+              final count = ref.watch(counterProvider);
+              final text = count.toString();
+              return Text(text);
+            },
+          ),
+          TextButton(
+            onPressed: ()  {
+              ref.read(counterProvider.notifier).state++;
+              print("Printing count from provider --> ${ref.watch(counterProvider)}");
+            },
+            child: const Text('Increment Counter'),
+          ),
+        ],
+      )),
     );
   }
 }

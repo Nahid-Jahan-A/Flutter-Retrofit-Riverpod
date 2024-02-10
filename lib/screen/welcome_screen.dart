@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_retrofit/providers/sharerpref_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+
+import '../providers/token_provider.dart';
 
 class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
@@ -18,11 +19,12 @@ class WelcomeScreen extends ConsumerWidget {
         child: sharedPreferencesAsyncValue.when(
             data: (sharedPreference) {
               final token = sharedPreference.get("accessToken");
-              return ElevatedButton(onPressed: (){
-                Logger logger = Logger();
-                logger.i(token);
-              },
-                  child: Text("Get Token"),
+              return ElevatedButton(
+                onPressed: () {
+                  Logger logger = Logger();
+                  logger.i(token);
+                },
+                child: Text("Get Token"),
               );
             },
             error: (error, stackTrace) => Text("Error $error"),

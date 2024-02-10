@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_retrofit/providers/sharerpref_provider.dart';
+import 'package:flutter_retrofit/providers/token_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
@@ -17,10 +17,12 @@ class WelcomeScreen extends ConsumerWidget {
       body: Center(
         child: sharedPreferencesAsyncValue.when(
             data: (sharedPreference) {
-              final token = sharedPreference.get("accessToken");
+              final accessToken = sharedPreference.get("accessToken");
+              final refreshToken = sharedPreference.get("refreshToken");
               return ElevatedButton(onPressed: (){
                 Logger logger = Logger();
-                logger.i(token);
+                logger.i(accessToken);
+                logger.i(refreshToken);
               },
                   child: Text("Get Token"),
               );

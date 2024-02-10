@@ -1,2 +1,1 @@
-var accessToken;
-var refreshToken;
+var flag = false;

@@ -76,6 +76,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     AuthData data = state.data;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('accessToken', data.data.accessToken);
+    if(prefs.get('accessToken') != null) flag = true;
     prefs.setString('refreshToken', data.data.refreshToken);
 
     logger.i(prefs.get('accessToken'));

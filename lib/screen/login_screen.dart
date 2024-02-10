@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_retrofit/interceptors/dio_client.dart';
+import 'package:flutter_retrofit/providers/token_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 import '../states/auth_state.dart';
+import '../util/global_values.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -25,8 +28,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   void initState() {
-    super.initState();
-
+    print("has token? $flag");
   }
 
   void _handleLoginClick() {
@@ -37,6 +39,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       loginId: loginId,
       password: password,
     );
+    Routemaster.of(context).replace('/dashboard');
   }
 
 

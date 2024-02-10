@@ -5,6 +5,7 @@ import 'package:shared_preferences_riverpod/shared_preferences_riverpod.dart';
 final sharedPrefsProvider = FutureProvider<SharedPreferences>(
     (_) async => await SharedPreferences.getInstance());
 
+
 // late SharedPreferences prefs;
 // final accessTokenPrefProvider = createPrefProvider<String?>(
 //   prefs: (_) => prefs,
@@ -12,46 +13,45 @@ final sharedPrefsProvider = FutureProvider<SharedPreferences>(
 //   defaultValue: 'acc tkn',
 // );
 
-
-class TokenProvider {
-  TokenProvider({
-    required this.prefs
+final sharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) {
+  return SharedPreferences.getInstance();
 });
 
-  final SharedPreferences prefs;
+class AccessTokenProvider {
+  final SharedPreferences sharedPreferences;
 
-  void getAccessToken() {
+  AccessTokenProvider(this.sharedPreferences);
+
+  String? get() {
     final accessTokenPrefProvider = createPrefProvider<String?>(
-      prefs: (_) => prefs,
+      prefs: (_) => sharedPreferences,
       prefKey: "accessToken",
       defaultValue: 'acc tkn',
     );
+    return accessTokenPrefProvider.notifier.toString();
   }
 
-  void getRefreshToken() {
+  getRefreshToken() {
     final refreshTokenPrefProvider = createPrefProvider<String?>(
-      prefs: (_) => prefs,
+      prefs: (_) => sharedPreferences,
       prefKey: 'refreshToken',
       defaultValue: 'ref tkn',
     );
   }
 }
 
-final sharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) {
-  return SharedPreferences.getInstance();
-});
-
-class SharedPreferencesProvider {
+class RefreshTokenProvider {
   final SharedPreferences sharedPreferences;
 
-  SharedPreferencesProvider(this.sharedPreferences);
+  RefreshTokenProvider(this.sharedPreferences);
 
-  String? getToken() {
-    return sharedPreferences.getString('token');
-  }
-
-  void setToken(String token) {
-    sharedPreferences.setString('token', token);
+  String? get() {
+    final refreshTokenPrefProvider = createPrefProvider<String?>(
+      prefs: (_) => sharedPreferences,
+      prefKey: 'refreshToken',
+      defaultValue: 'ref tkn',
+    );
+    return refreshTokenPrefProvider.notifier.toString();
   }
 }
 

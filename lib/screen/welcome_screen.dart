@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_retrofit/providers/token_provider.dart';
+import 'package:flutter_retrofit/states/auth_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 class WelcomeScreen extends ConsumerWidget {
+
+
   const WelcomeScreen({super.key});
 
   @override
@@ -12,23 +15,36 @@ class WelcomeScreen extends ConsumerWidget {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text("Welcome "),
+        title: const Text("Welcome "),
       ),
       body: Center(
-        child: sharedPreferencesAsyncValue.when(
-            data: (sharedPreference) {
-              final accessToken = sharedPreference.get("accessToken");
-              final refreshToken = sharedPreference.get("refreshToken");
-              return ElevatedButton(onPressed: (){
-                Logger logger = Logger();
-                logger.i(accessToken);
-                logger.i(refreshToken);
+        child: Column(
+          children: [
+            sharedPreferencesAsyncValue.when(
+                data: (sharedPreference) {
+                  final accessToken = sharedPreference.get("accessToken");
+                  final refreshToken = sharedPreference.get("refreshToken");
+                  return ElevatedButton(onPressed: (){
+                    Logger logger = Logger();
+                    logger.i(accessToken);
+                    logger.i(refreshToken);
+                  },
+                      child: Text("Get Tokens"),
+                  );
+                },
+                error: (error, stackTrace) => Text("Error $error"),
+                loading: () => const CircularProgressIndicator()),
+
+            Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                final authStateNotifier = ref.watch(authProvider.notifier);
+                return ElevatedButton(onPressed: (){
+                  authStateNotifier.signOut();
+                }, child: const Text("Clear token"));
               },
-                  child: Text("Get Token"),
-              );
-            },
-            error: (error, stackTrace) => Text("Error $error"),
-            loading: () => CircularProgressIndicator()),
+            ),
+          ],
+        ),
       ),
     );
   }

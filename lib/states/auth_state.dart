@@ -15,34 +15,34 @@ class AuthState {
   final bool isAuthenticated;
   final String? accessToken;
 
-  AuthState(this.isAuthenticated, {this.accessToken});
+  const AuthState(this.isAuthenticated, {this.accessToken});
 
-  factory AuthState.unknown() => AuthState(false);
+  factory AuthState.unknown() => const AuthState(false);
 
   factory AuthState.authenticated(String accessToken) =>
       AuthState(true, accessToken: accessToken);
 
-  factory AuthState.unauthenticated() => AuthState(false);
+  factory AuthState.unauthenticated() => const AuthState(false);
 }
 
 class InitialAuthState extends AuthState {
-  InitialAuthState(super.isAuthenticated);
+  const InitialAuthState(super.isAuthenticated);
 }
 
 class AuthLoadingState extends AuthState {
-  AuthLoadingState(super.isAuthenticated);
+  const AuthLoadingState(super.isAuthenticated);
 }
 
 class AuthLoadedState extends AuthState {
   final AuthData data;
 
-  AuthLoadedState(super.isAuthenticated, {required this.data});
+  const AuthLoadedState(super.isAuthenticated, {required this.data});
 }
 
 class ErrorAuthState extends AuthState {
   final String message;
 
-  ErrorAuthState(super.isAuthenticated, {required this.message});
+  const ErrorAuthState(super.isAuthenticated, {required this.message});
 }
 
 final authStateNotifier = StateNotifierProvider(
@@ -112,7 +112,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     Map<String, dynamic> payload = {"loginId": loginId, "password": password};
     logger.i(payload);
     try {
-      state = AuthLoadingState(false);
+      state = const AuthLoadingState(false);
       AuthData data = await _apiClient.login(payload);
       logger.i("Access token ${data.data.accessToken.runtimeType}");
       // logger.i("Refresh token ${data.data.refreshToken}");

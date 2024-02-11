@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_retrofit/providers/token_provider.dart';
 import 'package:flutter_retrofit/states/auth_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
+import 'package:routemaster/routemaster.dart';
 
 class WelcomeScreen extends ConsumerWidget {
 
@@ -11,7 +10,6 @@ class WelcomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sharedPreferencesAsyncValue = ref.watch(sharedPreferencesProvider);
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -19,28 +17,22 @@ class WelcomeScreen extends ConsumerWidget {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            sharedPreferencesAsyncValue.when(
-                data: (sharedPreference) {
-                  final accessToken = sharedPreference.get("accessToken");
-                  final refreshToken = sharedPreference.get("refreshToken");
-                  return ElevatedButton(onPressed: (){
-                    Logger logger = Logger();
-                    logger.i(accessToken);
-                    logger.i(refreshToken);
+            ElevatedButton(
+              onPressed: (){
+                ref.read(authProvider.notifier).getTokens();
                   },
-                      child: Text("Get Tokens"),
-                  );
-                },
-                error: (error, stackTrace) => Text("Error $error"),
-                loading: () => const CircularProgressIndicator()),
+            child: const Text("Get Tokens"),),
 
             Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
                 final authStateNotifier = ref.watch(authProvider.notifier);
                 return ElevatedButton(onPressed: (){
                   authStateNotifier.signOut();
-                }, child: const Text("Clear token"));
+                  Routemaster.of(context).replace('/');
+                }, child: const Text("Logout"));
               },
             ),
           ],

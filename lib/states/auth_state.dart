@@ -11,7 +11,7 @@ final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
 );
 
 @immutable
- class AuthState {
+class AuthState {
   final bool isAuthenticated;
   final String? accessToken;
 
@@ -56,7 +56,7 @@ final authStateNotifier = StateNotifierProvider(
 class AuthNotifier extends StateNotifier<AuthState> {
   final UtkorshoApiClient _apiClient;
 
-  AuthNotifier(this._apiClient) : super(AuthState.unknown()){
+  AuthNotifier(this._apiClient) : super(AuthState.unknown()) {
     _initialize();
   }
 
@@ -71,12 +71,36 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = AuthState.unauthenticated();
     }
   }
+
+  Future<void> setAccessToken(String accessToken, String refreshToken) async {
+    Logger logger = Logger();
+    state = AuthState.authenticated(accessToken);
+    final sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString('accessToken', accessToken);
+    await sharedPreferences.setString('refreshToken', refreshToken);
+
+    logger.i("Access Token set ---> ${sharedPreferences.get('accessToken')}");
+    logger.i("Refresh Token set ---> ${sharedPreferences.get('refreshToken')}");
+  }
+
+  Future<void> getTokens() async {
+    Logger logger = Logger();
+    final sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.get('accessToken');
+    sharedPreferences.get('refreshToken');
+
+    logger.i("Access Token get ---> ${sharedPreferences.get('accessToken')}");
+    logger.i("Refresh Token get ---> ${sharedPreferences.get('refreshToken')}");
+  }
+
   Future<void> signOut() async {
     Logger logger = Logger();
     state = AuthState.unauthenticated();
     final sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.remove('accessToken');
-    logger.i("Logout called ---> ${sharedPreferences.get("accessToken")}");
+    await sharedPreferences.remove('refreshToken');
+    logger.i("Access token cleared ---> ${sharedPreferences.get("accessToken")}");
+    logger.i("Refresh token cleared ---> ${sharedPreferences.get("refreshToken")}");
   }
 
   void fetchAuthData({
@@ -97,14 +121,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
       // logger.i(prefs.get('accessToken'));
       // logger.i(prefs.get('refreshToken'));
       state = AuthLoadedState(true, data: data);
-      _saveResponseData(AuthLoadedState(true, data: data));
+      setAccessToken(data.data.accessToken, data.data.refreshToken);
     } catch (e) {
       state = ErrorAuthState(false, message: e.toString());
       logger.i(e.toString());
     }
   }
 
-  void _saveResponseData(AuthLoadedState state) async{
+  void _saveResponseData(AuthLoadedState state) async {
     Logger logger = Logger();
     AuthData data = state.data;
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -114,5 +138,4 @@ class AuthNotifier extends StateNotifier<AuthState> {
     logger.i(prefs.get('accessToken'));
     logger.i(prefs.get('refreshToken'));
   }
-
 }

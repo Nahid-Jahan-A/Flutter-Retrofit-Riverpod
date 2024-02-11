@@ -20,14 +20,6 @@ class AccessTokenProvider {
     );
     return accessTokenPrefProvider.notifier.toString();
   }
-
-  getRefreshToken() {
-    final refreshTokenPrefProvider = createPrefProvider<String?>(
-      prefs: (_) => sharedPreferences,
-      prefKey: 'refreshToken',
-      defaultValue: 'ref tkn',
-    );
-  }
 }
 
 class RefreshTokenProvider {

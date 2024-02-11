@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_retrofit/practice/riverpod_practice.dart';
+import 'package:flutter_retrofit/providers/token_provider.dart';
 import 'package:flutter_retrofit/screen/login_screen.dart';
 import 'package:flutter_retrofit/screen/welcome_screen.dart';
 import 'package:routemaster/routemaster.dart';
@@ -48,8 +50,8 @@ final appRouteMap = RouteMap(
 );
 
 final routes = RouteMap(routes: {
-  '/': (_) => !flag ?  const MaterialPage(
-    child: LoginScreen(),
+  '/': (_) => accessToken == null ?  const MaterialPage(
+    child: ProviderHome(),
   ): const MaterialPage(
   child: WelcomeScreen(),
 ),

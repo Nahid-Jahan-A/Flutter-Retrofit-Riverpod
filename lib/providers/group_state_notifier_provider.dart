@@ -1,5 +1,5 @@
 
-import 'package:flutter_retrofit/states/group_statedart';
+import 'package:flutter_retrofit/states/group_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'group_repository_provider.dart';

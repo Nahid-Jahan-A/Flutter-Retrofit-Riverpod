@@ -1,9 +1,7 @@
-
 import 'package:flutter_retrofit/data_classes/Groups.dart';
 import 'package:flutter_retrofit/repository/group_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import '../providers/dio_provider.dart';
 
 enum GroupStatus { initial, loading, loaded, error }
 
@@ -29,19 +27,23 @@ class GroupState {
       error: error ?? this.error,
     );
   }
-
 }
 
 class GroupStateNotifier extends StateNotifier<GroupState> {
   final GroupRepository _groupRepository;
 
-  GroupStateNotifier(this._groupRepository) : super(GroupState.initial());
+  GroupStateNotifier(this._groupRepository) : super(GroupState.initial()) {
+    fetchGroupData();
+  }
 
-  void fetchGroupData() async {
+  Future<void> fetchGroupData() async {
     Logger logger = Logger();
+
+    logger.i("================================ Inside fetch group method ========================================");
+
     try {
       state = state.copyWith(status: GroupStatus.loading);
-      GroupData groups = await _groupRepository.getGroups();
+      final groups = await _groupRepository.getGroups();
       logger.i("Group data ${groups.data}");
       state = state.copyWith(groups: groups.data, status: GroupStatus.loaded);
     } catch (e) {

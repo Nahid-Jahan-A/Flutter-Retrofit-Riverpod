@@ -1,29 +1,39 @@
-class Template {
-  bool success;
-  Data data;
-  Meta meta;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Template({
-    required this.success,
-    required this.data,
-    required this.meta,
-  });
+part 'data_template.g.dart';
+part 'data_template.freezed.dart';
+//
+// class Template<T> {
+//   bool success;
+//   T data;
+//   Meta meta;
+//
+//   Template({
+//     required this.success,
+//     required this.data,
+//     required this.meta,
+//   });
+//
+//   factory Template.fromJson(Map<String, dynamic> json) {
+//     return Template(success: json['success'], data: T.fromJson(json['data']), meta: Meta.fromJson(json['data']));
+//   }
+//
+// }
 
+@freezed
+class Meta with _$Meta {
+  const factory Meta({required int statusCode, String? message}) = _Meta;
+
+  factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
 }
 
-class Data<T> {
-  T value;
+@Freezed(genericArgumentFactories: true)
+sealed class ApiResponse<T> with _$ApiResponse<T> {
+  const factory ApiResponse({
+    required bool success,
+    required T data,
+    required Meta meta,
+}) = _ApiResponse;
 
-  Data(this.value);
-
-  T getValue() {
-    return value;
-  }
-}
-
-class Meta {
-  Meta(this.statusCode, this.message);
-
-  int statusCode;
-  String message;
+  factory ApiResponse.fromJson(Map<String, dynamic> json, T Function(Object?) fromJsonT) => _$ApiResponseFromJson(json, fromJsonT);
 }

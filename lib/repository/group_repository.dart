@@ -1,7 +1,7 @@
 
 
 import 'package:flutter_retrofit/api/api_service.dart';
-import 'package:flutter_retrofit/data_classes/Groups.dart';
+import 'package:flutter_retrofit/models/Groups.dart';
 
 class GroupRepository {
   final UtkorshoApiClientForCS _utkorshoApiClientForCS;

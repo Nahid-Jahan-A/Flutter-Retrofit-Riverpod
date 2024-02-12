@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_retrofit/data_classes/Groups.dart';
-import 'package:flutter_retrofit/model/auth_data.dart';
-import 'package:flutter_retrofit/model/post.dart';
+import 'package:flutter_retrofit/models/Groups.dart';
+import 'package:flutter_retrofit/models/auth_data.dart';
+import 'package:flutter_retrofit/model_practice/post.dart';
 import 'package:retrofit/http.dart';
 
 part 'api_service.g.dart';

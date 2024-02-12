@@ -1,4 +1,4 @@
-import 'package:flutter_retrofit/data_classes/Groups.dart';
+import 'package:flutter_retrofit/models/Groups.dart';
 import 'package:flutter_retrofit/repository/group_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';

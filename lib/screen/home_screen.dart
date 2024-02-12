@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_retrofit/model/post.dart';
+import 'package:flutter_retrofit/model_practice/post.dart';
 import 'package:flutter_retrofit/repository/post_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

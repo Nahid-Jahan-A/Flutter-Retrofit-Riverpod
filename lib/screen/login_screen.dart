@@ -3,7 +3,7 @@ import 'package:flutter_retrofit/interceptors/dio_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
-import '../states/auth_state.dart';
+import '../states/auth_repository.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});

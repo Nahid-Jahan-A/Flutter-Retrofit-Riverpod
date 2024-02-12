@@ -3,7 +3,7 @@ import 'package:flutter_retrofit/practice/riverpod_practice.dart';
 import 'package:flutter_retrofit/providers/token_provider.dart';
 import 'package:flutter_retrofit/screen/login_screen.dart';
 import 'package:flutter_retrofit/screen/welcome_screen.dart';
-import 'package:flutter_retrofit/states/auth_state.dart';
+import 'package:flutter_retrofit/states/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -54,7 +54,7 @@ final appRouteMap = RouteMap(
 final routes = RouteMap(routes: {
   '/': (_) => MaterialPage(
     child: Consumer(builder: (BuildContext context, WidgetRef ref, _) {
-      final authState = ref.watch(authProvider.notifier).state;
+      final authState = ref.watch(authStateProvider.notifier).state;
       return authState.isAuthenticated ? const WelcomeScreen() : const LoginScreen();
     })
   ),

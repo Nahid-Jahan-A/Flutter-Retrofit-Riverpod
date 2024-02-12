@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_retrofit/states/auth_state.dart';
+import 'package:flutter_retrofit/states/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -22,13 +22,13 @@ class WelcomeScreen extends ConsumerWidget {
           children: [
             ElevatedButton(
               onPressed: (){
-                ref.read(authProvider.notifier).getTokens();
+                ref.read(authStateProvider.notifier).getTokens();
                   },
             child: const Text("Get Tokens"),),
 
             Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                final authStateNotifier = ref.watch(authProvider.notifier);
+                final authStateNotifier = ref.watch(authStateProvider.notifier);
                 return ElevatedButton(onPressed: (){
                   authStateNotifier.signOut();
                   Routemaster.of(context).replace('/');

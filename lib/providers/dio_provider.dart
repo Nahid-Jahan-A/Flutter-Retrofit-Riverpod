@@ -19,5 +19,10 @@ final apiClientProvider = Provider(
 
 final utkorshoApiClientProvider = Provider(
         (ref) => UtkorshoApiClient(
-            ref.watch(dioProvider)
+            ref.watch(dioInterceptorProvider)
+        ));
+
+final utkorshoApiClientForCSProvider = Provider(
+        (ref) => UtkorshoApiClientForCS(
+            ref.watch(dioInterceptorProvider)
         ));

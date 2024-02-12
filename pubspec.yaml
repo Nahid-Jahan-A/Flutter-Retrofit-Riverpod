@@ -38,6 +38,8 @@ dependencies:
   shared_preferences: ^2.2.2
   shared_preferences_riverpod: ^0.3.0
   routemaster: ^1.0.1
+  freezed_annotation: ^2.4.1
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -50,6 +52,7 @@ dev_dependencies:
   retrofit_generator: ^8.1.0
   json_serializable: ^6.7.1
   build_runner: ^2.4.8
+  freezed: ^2.4.7
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

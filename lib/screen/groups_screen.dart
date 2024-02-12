@@ -13,16 +13,6 @@ class GroupScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Groups"),
       ),
-      floatingActionButton: Consumer(
-        builder: (context, ref, child) {
-          return FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              ref.read(groupNotifierProvider.notifier).fetchGroupData();
-            },
-          );
-        }
-      ),
       body: Consumer(
         builder: (context, watch, child) {
           final state = watch.watch(groupNotifierProvider);

@@ -1,4 +1,4 @@
-import 'package:flutter_retrofit/models/Groups.dart';
+import 'package:flutter_retrofit/models/group_data.dart';
 import 'package:flutter_retrofit/repository/group_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -48,6 +48,21 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
       state = state.copyWith(groups: groups.data, status: GroupStatus.loaded);
     } catch (e) {
       state = state.copyWith(status: GroupStatus.error, error: e.toString());
+      logger.i(e.toString());
+    }
+  }
+
+  Future<void> createNewGroup({required String groupName}) async {
+    Logger logger = Logger();
+    Map<String, dynamic> payload = {"name": groupName};
+    logger.i(payload);
+    try{
+      state = state.copyWith(status: GroupStatus.loading);
+      Group group = await _groupRepository.createNewGroup(payload);
+      logger.i("Newly created group data ----->  ${group.name}");
+      state = state.copyWith(status: GroupStatus.loaded);
+    } catch(e) {
+      state = state.copyWith(status: GroupStatus.error);
       logger.i(e.toString());
     }
   }

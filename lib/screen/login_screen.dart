@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_retrofit/interceptors/dio_client.dart';
+import 'package:flutter_retrofit/providers/auth_state_notifier_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
-import '../states/auth_repository.dart';
+import '../states/auth_state.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -23,9 +24,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-
   void _handleLoginClick() {
-    final notifier = ref.read(authStateNotifier.notifier);
+    final notifier = ref.read(authNotifierProvider.notifier);
     String loginId = _loginIdController.text.trim();
     String password = _passwordController.text.trim();
     notifier.fetchAuthData(
@@ -34,7 +34,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
     Routemaster.of(context).replace('/dashboard');
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,22 +49,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             TextFormField(
               controller: _loginIdController,
               decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("Login ID")
-              ),
+                  border: OutlineInputBorder(), label: Text("Login ID")),
             ),
             const SizedBox(height: 16),
             TextFormField(
               controller: _passwordController,
               decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("Password")
-              ),
+                  border: OutlineInputBorder(), label: Text("Password")),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(onPressed: () {
-              _handleLoginClick();
-            }, child: const Text("Login")),
+            ElevatedButton(
+                onPressed: () {
+                  _handleLoginClick();
+                },
+                child: const Text("Login")),
           ],
         ),
       ),

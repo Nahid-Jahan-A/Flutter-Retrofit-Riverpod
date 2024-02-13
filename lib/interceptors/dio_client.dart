@@ -8,9 +8,11 @@ class DioClient {
   DioClient() {
     api.interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
       // if (!options.path.contains('http')) {
       //   options.path = 'http://10.10.10.31:38080${options.path}';
       // }
+          accessToken = prefs.getString("accessToken");
       if(accessToken != null) {
         options.headers['Authorization'] = 'Bearer $accessToken';
       }

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_retrofit/states/auth_repository.dart';
+import 'package:flutter_retrofit/providers/auth_state_notifier_provider.dart';
+import 'package:flutter_retrofit/states/auth_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
 class WelcomeScreen extends ConsumerWidget {
-
-
   const WelcomeScreen({super.key});
 
   @override
@@ -21,18 +20,21 @@ class WelcomeScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: (){
-                ref.read(authStateProvider.notifier).getTokens();
-                  },
-            child: const Text("Get Tokens"),),
-
+              onPressed: () {
+                ref.read(authNotifierProvider.notifier).getTokens();
+              },
+              child: const Text("Get Tokens"),
+            ),
             Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                final authStateNotifier = ref.watch(authStateProvider.notifier);
-                return ElevatedButton(onPressed: (){
-                  authStateNotifier.signOut();
-                  Routemaster.of(context).replace('/');
-                }, child: const Text("Logout"));
+                final authStateNotifier =
+                    ref.watch(authNotifierProvider.notifier);
+                return ElevatedButton(
+                    onPressed: () {
+                      authStateNotifier.signOut();
+                      Routemaster.of(context).replace('/');
+                    },
+                    child: const Text("Logout"));
               },
             ),
           ],

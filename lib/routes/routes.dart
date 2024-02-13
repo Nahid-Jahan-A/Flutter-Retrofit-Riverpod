@@ -57,8 +57,8 @@ final routes = RouteMap(routes: {
           child: Consumer(builder: (BuildContext context, WidgetRef ref, _) {
         final authState = ref.watch(authNotifierProvider.notifier).state;
         return authState.isAuthenticated
-            ? const WelcomeScreen()
-            : const LoginScreen();
+            ? const GroupScreen()
+            : const GroupScreen();
       })),
   '/dashboard': (_) => const MaterialPage(
         child: WelcomeScreen(),

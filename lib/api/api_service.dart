@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_retrofit/models/Groups.dart';
 import 'package:flutter_retrofit/models/auth_data.dart';
 import 'package:flutter_retrofit/model_practice/post.dart';
+import 'package:flutter_retrofit/models/class.dart';
 import 'package:retrofit/http.dart';
 
 part 'api_service.g.dart';
@@ -14,8 +15,12 @@ class Apis {
   static const String UTKORSHO_BASE_URL = "http://10.10.10.31";
 
   static const String UTKORSHO_BASE_URL_CS = "http://10.10.10.31:28089";
+  static const String UTKORSHO_BASE_URL_CLASS = "http://10.10.10.31:28089";
 
-  static const String auth_endpoint = "/auth/login"; //post method requires login id and password
+  static const String class_endpoint = "/api/v1/classes";
+
+  static const String auth_endpoint =
+      "/auth/login"; //post method requires login id and password
   //static const String group_endpoint =
   //":28089/api/v1/groups"; //post method requires login id and password
   static const String group_endpoint = "/api/v1/groups";
@@ -48,6 +53,16 @@ abstract class UtkorshoApiClient {
   @POST(Apis.auth_endpoint)
   Future<AuthData> login(@Body() payload);
 }
+
+@RestApi(baseUrl: Apis.UTKORSHO_BASE_URL_CLASS)
+abstract class UtkorshoApiClientForClass {
+  factory UtkorshoApiClientForClass(Dio dio, {String baseUrl}) =
+      _UtkorshoApiClientForClass;
+
+  @GET(Apis.class_endpoint)
+  Future<ClassData> getClassData();
+}
+
 //
 // @RestApi(baseUrl: Apis.UTKORSHO_BASE_URL)
 // abstract class UtkorshoApiClient {

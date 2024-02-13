@@ -2,62 +2,52 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_retrofit/api/api_service.dart';
 import 'package:flutter_retrofit/models/auth_data.dart';
 import 'package:flutter_retrofit/providers/dio_provider.dart';
+import 'package:flutter_retrofit/repository/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//This will go inside provider module
-final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>(
-  (ref) => AuthStateNotifier(ref.watch(utkorshoApiClientProvider)),
-);
+enum AuthStatus { initial, loading, loaded, error }
 
-@immutable
 class AuthState {
+  const AuthState(
+      {required this.isAuthenticated,
+      this.accessToken,
+      this.error,
+      this.status});
+
   final bool isAuthenticated;
   final String? accessToken;
+  final AuthStatus? status;
+  final String? error;
 
-  const AuthState(this.isAuthenticated, {this.accessToken});
-
-  factory AuthState.unknown() => const AuthState(false);
+  factory AuthState.unknown() => const AuthState(isAuthenticated: false);
 
   factory AuthState.authenticated(String accessToken) =>
-      AuthState(true, accessToken: accessToken);
+      AuthState(isAuthenticated: true, accessToken: accessToken);
 
-  factory AuthState.unauthenticated() => const AuthState(false);
+  factory AuthState.unauthenticated() =>
+      const AuthState(isAuthenticated: false);
+
+  AuthState copyWith({
+    bool? isAuthenticated,
+    String? accessToken,
+    AuthStatus? status,
+    String? error,
+  }) {
+    return AuthState(
+      isAuthenticated: this.isAuthenticated,
+      accessToken: accessToken ?? this.accessToken,
+      status: status ?? this.status,
+      error: error ?? this.error,
+    );
+  }
 }
-
-class InitialAuthState extends AuthState {
-  const InitialAuthState(super.isAuthenticated);
-}
-
-class AuthLoadingState extends AuthState {
-  const AuthLoadingState(super.isAuthenticated);
-}
-
-class AuthLoadedState extends AuthState {
-  final AuthData data;
-
-  const AuthLoadedState(super.isAuthenticated, {required this.data});
-}
-
-class ErrorAuthState extends AuthState {
-  final String message;
-
-  const ErrorAuthState(super.isAuthenticated, {required this.message});
-}
-
-final authStateNotifier = StateNotifierProvider(
-  (ref) => AuthStateNotifier(
-    UtkorshoApiClient(
-      ref.read(dioInterceptorProvider),
-    ),
-  ),
-);
 
 class AuthStateNotifier extends StateNotifier<AuthState> {
-  final UtkorshoApiClient _apiClient;
+  final AuthRepository _authRepository;
 
-  AuthStateNotifier(this._apiClient) : super(AuthState.unknown()) {
+  AuthStateNotifier(this._authRepository) : super(AuthState.unknown()) {
     _initialize();
   }
 
@@ -106,7 +96,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         "Refresh token cleared ---> ${sharedPreferences.get("refreshToken")}");
   }
 
-  void fetchAuthData({
+  Future<void> fetchAuthData({
     required String loginId,
     required String password,
   }) async {
@@ -115,13 +105,13 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     Map<String, dynamic> payload = {"loginId": loginId, "password": password};
     logger.i(payload);
     try {
-      state = const AuthLoadingState(false);
-      AuthData data = await _apiClient.login(payload);
+      state = state.copyWith(status: AuthStatus.loading);
+      AuthData data = await _authRepository.getAuth(payload);
       logger.i("Access token ${data.data.accessToken.runtimeType}");
-      state = AuthLoadedState(true, data: data);
+      state = state.copyWith(isAuthenticated: true);
       setAccessToken(data.data.accessToken, data.data.refreshToken);
     } catch (e) {
-      state = ErrorAuthState(false, message: e.toString());
+      state = state.copyWith(status: AuthStatus.error, error: e.toString());
       logger.i(e.toString());
     }
   }

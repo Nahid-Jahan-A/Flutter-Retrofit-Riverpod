@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_retrofit/providers/group_state_notifier_provider.dart';
+import 'package:flutter_retrofit/repository/post_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 import '../states/group_state.dart';
 
@@ -12,11 +14,19 @@ class GroupScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Groups"),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              Routemaster.of(context).replace('/add_group');
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: Consumer(
-        builder: (context, watch, child) {
-          final state = watch.watch(groupNotifierProvider);
-          return _buildContent(state);
+        builder: (context, ref, _) {
+          final postState = ref.watch(groupNotifierProvider);
+          return _buildContent(postState);
         },
       ),
     );
@@ -31,9 +41,12 @@ class GroupScreen extends StatelessWidget {
           itemCount: state.groups.length,
           itemBuilder: (context, index) {
             final group = state.groups[index];
-            return ListTile(
-              title: Text(group.name),
-              subtitle: Text(group.status.toString()),
+            return GestureDetector(
+              onTap: () {},
+              child: ListTile(
+                title: Text(group.name),
+                subtitle: Text(group.status.toString()),
+              ),
             );
           },
         );
@@ -43,5 +56,4 @@ class GroupScreen extends StatelessWidget {
         return const Center(child: Text('No data available'));
     }
   }
-
 }

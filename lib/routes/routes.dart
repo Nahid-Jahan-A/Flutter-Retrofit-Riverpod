@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_retrofit/practice/riverpod_practice.dart';
 import 'package:flutter_retrofit/providers/auth_state_notifier_provider.dart';
 import 'package:flutter_retrofit/providers/token_provider.dart';
+import 'package:flutter_retrofit/screen/add_group_screen.dart';
 import 'package:flutter_retrofit/screen/groups_screen.dart';
 import 'package:flutter_retrofit/screen/login_screen.dart';
 import 'package:flutter_retrofit/screen/welcome_screen.dart';
@@ -62,6 +63,9 @@ final routes = RouteMap(routes: {
       })),
   '/dashboard': (_) => const MaterialPage(
         child: WelcomeScreen(),
+      ),
+  '/add_group': (_) => const MaterialPage(
+        child: AddGroup(),
       ),
 });
 

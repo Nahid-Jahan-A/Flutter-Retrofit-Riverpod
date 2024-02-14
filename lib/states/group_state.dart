@@ -1,28 +1,28 @@
-import 'package:flutter_retrofit/models/Groups.dart';
+import 'package:flutter_retrofit/models/group_data.dart';
 import 'package:flutter_retrofit/repository/group_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-enum GroupStatus { initial, loading, loaded, error }
+enum GroupStatus { initial, loading, created, updated, deleted, loaded, loadedSingle, error }
 
-class GroupState {
-  GroupState({required this.groups, required this.status, this.error});
+class GroupState<T> {
+  GroupState({required this.data, required this.status, this.error});
 
-  final List<Group> groups;
+  final T? data;
   final GroupStatus status;
   final String? error;
 
   factory GroupState.initial() {
-    return GroupState(groups: [], status: GroupStatus.initial);
+    return GroupState(data: null, status: GroupStatus.initial);
   }
 
-  GroupState copyWith({
-    List<Group>? groups,
+  GroupState<T> copyWith({
+    T? groups,
     GroupStatus? status,
     String? error,
   }) {
-    return GroupState(
-      groups: groups ?? this.groups,
+    return GroupState<T>(
+      data: groups ?? this.data,
       status: status ?? this.status,
       error: error ?? this.error,
     );
@@ -49,6 +49,71 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
     } catch (e) {
       state = state.copyWith(status: GroupStatus.error, error: e.toString());
       logger.i(e.toString());
+    }
+  }
+
+  Future<void> createNewGroup({required String groupName}) async {
+    Logger logger = Logger();
+
+    logger.i("================================ Inside create group method ========================================");
+
+    logger.i(groupName);
+    try{
+      state = state.copyWith(status: GroupStatus.loading);
+      Map<String, dynamic> payload = {"name": groupName};
+      CreateGroupResponse data = await _groupRepository.createNewGroup(payload);
+      if(data.meta.statusCode == 201) {
+        logger.i("Newly created group data ----->  ${data.data.name}");
+        state = state.copyWith(status: GroupStatus.created);
+        logger.i("Group Created Successfully ----->");
+        logger.i("State value from method inside view model -----> ${state.status}");
+      }
+    } catch(e) {
+      state = state.copyWith(status: GroupStatus.error);
+      logger.i(e.toString());
+    }
+  }
+
+  Future<void> deleteGroupById(String id) async {
+    Logger logger = Logger();
+
+    logger.i("================================ Inside delete group method ========================================");
+
+    try {
+      state = state.copyWith(status: GroupStatus.loading);
+      DeleteResponse data = await _groupRepository.deleteGroupById(id);
+      if (data != null && data.meta.statusCode == 200) {
+        state = state.copyWith(status: GroupStatus.deleted);
+        logger.i("Group deleted successfully");
+      } else {
+        throw Exception("Failed to delete group. Status code: ${data?.meta.statusCode}");
+      }
+    } catch (e) {
+      logger.e("Error deleting group: $e");
+      state = state.copyWith(status: GroupStatus.error);
+    }
+  }
+
+
+  Future<void> getGroupById(id) async {
+    Logger logger = Logger();
+
+    logger.i("================================ Inside get group by ID method ========================================");
+
+    logger.i(id);
+
+    try{
+      logger.i("Inside try block");
+      state = state.copyWith(status: GroupStatus.loading);
+      logger.i("Group status ${state.status}");
+      SingleGroupResponse data = await _groupRepository.getGroupByGroupId(id);
+      if(data.meta.statusCode == 200) {
+        logger.i("Get group data status ----->  ${data.success}");
+        state = state.copyWith(status: GroupStatus.loadedSingle);
+      }
+    }catch(e) {
+      logger.i("Inside catch block");
+      state = state.copyWith(status: GroupStatus.error);
     }
   }
 }

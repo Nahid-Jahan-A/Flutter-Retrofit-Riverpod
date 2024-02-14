@@ -87,7 +87,7 @@ class _UtkorshoApiClientForCS implements UtkorshoApiClientForCS {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.10.10.31:28089';
+    baseUrl ??= 'http://10.10.10.31:28089/course-service/';
   }
 
   final Dio _dio;
@@ -108,7 +108,7 @@ class _UtkorshoApiClientForCS implements UtkorshoApiClientForCS {
     )
             .compose(
               _dio.options,
-              '/api/v1/groups',
+              'api/v1/groups',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -118,6 +118,87 @@ class _UtkorshoApiClientForCS implements UtkorshoApiClientForCS {
               baseUrl,
             ))));
     final value = GroupData.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CreateGroupResponse> addGroup(dynamic group) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = group;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CreateGroupResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'api/v1/groups',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = CreateGroupResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DeleteResponse> deleteGroup(String groupId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DeleteResponse>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'api/v1/groups/${groupId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DeleteResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<SingleGroupResponse> getGroupByGroupId(String groupId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SingleGroupResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'api/v1/groups/${groupId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = SingleGroupResponse.fromJson(_result.data!);
     return value;
   }
 

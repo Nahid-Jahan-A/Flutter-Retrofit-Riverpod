@@ -13,13 +13,18 @@ class Apis {
 
   static const String UTKORSHO_BASE_URL = "http://10.10.10.31:38080";
 
-  static const String UTKORSHO_BASE_URL_CS = "http://10.10.10.31:28089";
+  static const String UTKORSHO_BASE_URL_CS = "http://10.10.10.31:28089/course-service/";
 
   static const String auth_endpoint = "/auth/login"; //post method requires login id and password
 
-  static const String group_endpoint = "/api/v1/groups";
+  static const String group_endpoint = "api/v1/groups";
 
-  static const String add_group_endpoint = "/api/v1/groups"; //post method requires group name as payload
+  static const String add_group_endpoint = "api/v1/groups"; //post method requires group name as payload
+
+
+  static const String delete_group_endpoint = "api/v1/groups/{groupId}"; //post method requires group id as payload
+
+  static const String get_single_group_endpoint = "api/v1/groups/{groupId}"; //post method requires group id as payload
 
   static const String test_endpoint = "/api/v1/hello"; //get method requires access token in the header
 }
@@ -40,7 +45,14 @@ abstract class UtkorshoApiClientForCS {
   Future<GroupData> getGroupData();
 
   @POST(Apis.add_group_endpoint)
-  Future<Group> addGroup(@Body() payload);
+  Future<CreateGroupResponse> addGroup(@Body() group);
+
+  @DELETE(Apis.delete_group_endpoint)
+  Future<DeleteResponse> deleteGroup(@Path("groupId") String groupId);
+
+  @GET(Apis.get_single_group_endpoint)
+  Future<SingleGroupResponse> getGroupByGroupId(@Path("groupId") String groupId);
+
 }
 
 @RestApi(baseUrl: Apis.UTKORSHO_BASE_URL)

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_retrofit/api/api_service.dart';
 import 'package:flutter_retrofit/models/Groups.dart';
 

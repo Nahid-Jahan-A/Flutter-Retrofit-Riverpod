@@ -33,10 +33,10 @@ class ClassStateNotifier extends StateNotifier<ClassState> {
   final ClassRepository _classRepository;
 
   ClassStateNotifier(this._classRepository) : super(ClassState.initial()) {
-    fetchClassData();
+    fetchGroupData();
   }
 
-  Future<void> fetchClassData() async {
+  Future<void> fetchGroupData() async {
     Logger logger = Logger();
 
     logger.i(
@@ -45,10 +45,11 @@ class ClassStateNotifier extends StateNotifier<ClassState> {
     try {
       state = state.copyWith(status: ClassStatus.loading);
       final classes = await _classRepository.getClasses();
-      logger.i("Class data ${classes.data}");
+      logger.i("Group data ${classes.data}");
       state = state.copyWith(classes: classes.data, status: ClassStatus.loaded);
     } catch (e) {
       state = state.copyWith(status: ClassStatus.error, error: e.toString());
+      logger.i(e.toString());
     }
   }
 }

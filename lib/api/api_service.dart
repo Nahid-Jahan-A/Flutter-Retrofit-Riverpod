@@ -63,6 +63,15 @@ abstract class UtkorshoApiClientForClass {
   Future<ClassData> getClassData();
 }
 
+@RestApi(baseUrl: Apis.UTKORSHO_BASE_URL_CLASS)
+abstract class UtkorshoApiClientForPostClasses {
+  factory UtkorshoApiClientForPostClasses(Dio dio, {String baseUrl}) =
+      _UtkorshoApiClientForPostClasses;
+
+  @POST(Apis.class_endpoint)
+  Future<ClassData> getClassData(@Body() payload);
+}
+
 //
 // @RestApi(baseUrl: Apis.UTKORSHO_BASE_URL)
 // abstract class UtkorshoApiClient {

@@ -10,30 +10,14 @@ import 'package:routemaster/routemaster.dart';
 import '../providers/group_repository_provider.dart';
 import '../states/group_state.dart';
 
-
-class test extends ConsumerStatefulWidget {
-  const test({super.key});
-
-  @override
-  State<test> createState() => _testState();
-}
-
-class _testState extends ConsumerState<test> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-
 class GroupScreen extends ConsumerStatefulWidget {
   const GroupScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _GroupScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _GroupScreen();
 }
 
-class _GroupScreenState extends ConsumerState<GroupScreen> {
+class _GroupScreen extends ConsumerState<GroupScreen> {
   final TextEditingController _groupNameController = TextEditingController();
 
   @override

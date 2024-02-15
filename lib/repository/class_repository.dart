@@ -1,12 +1,13 @@
-import 'package:flutter_retrofit/api/api_service.dart';
-import 'package:flutter_retrofit/models/class.dart';
+import '../api/api_service.dart';
+import '../models/class.dart';
 
 class ClassRepository {
-  final UtkorshoApiClientForClass _utkorshoApiClientForClass;
+  final UtkorshoApiClientForCS _utkorshoApiClientForCS;
 
-  ClassRepository(this._utkorshoApiClientForClass);
+  ClassRepository(this._utkorshoApiClientForCS);
 
   Future<ClassData> getClasses() async {
-    return _utkorshoApiClientForClass.getClassData();
+    return _utkorshoApiClientForCS.getClassData();
   }
+
 }

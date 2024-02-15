@@ -125,15 +125,15 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
                     .watch(groupNotifierProvider)
                     .status ==
                     GroupStatus.loadedSingle) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          SingleGroupScreen(
-                            group: group,
-                          ),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) =>
+                  //         SingleGroupScreen(
+                  //           group: group,
+                  //         ),
+                  //   ),
+                  // );
                 }
               },
               title: Text(group.name),

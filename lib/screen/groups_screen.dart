@@ -10,6 +10,11 @@ import 'package:routemaster/routemaster.dart';
 import '../providers/group_repository_provider.dart';
 import '../states/group_state.dart';
 
+class GroupScreen extends ConsumerWidget {
+  const GroupScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
 class GroupScreen extends ConsumerStatefulWidget {
   const GroupScreen({super.key});
 
@@ -25,6 +30,13 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Groups"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                //showSearch(context: context, delegate: GroupSearchDelegate());
+              },
+              icon: Icon(Icons.search))
+        ],
       ),
       body: Consumer(
         builder: (context, ref, _) {
@@ -165,3 +177,70 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
     );
   }
 }
+
+// class GroupSearchDelegate extends SearchDelegate<String> {
+//   @override
+//   List<Widget>? buildActions(BuildContext context) {
+//     return [
+//       IconButton(
+//         onPressed: () {
+//           query = '';
+//         },
+//         icon: Icon(Icons.clear),
+//       )
+//     ];
+//   }
+//
+//   @override
+//   Widget? buildLeading(BuildContext context) {
+//     return Consumer(builder: (context, WidgetRef ref, child) {
+//       final state = ref.read(groupNotifierProvider);
+//       return IconButton(
+//           onPressed: () {
+//             close(context, ref);
+//           },
+//           icon: Icon(Icons.arrow_back));
+//     });
+//   }
+//
+//   @override
+//   Widget buildResults(BuildContext context) {
+//     // List<String> matchQuery = [];
+//     // for (var name in searchTerms) {
+//     //   if (name.toLowerCase().contains(query.toLowerCase())) {
+//     //     matchQuery.add(name);
+//     //   }
+//     //}
+//     return _buildSearchResults(context);
+//   }
+//
+//   @override
+//   Widget buildSuggestions(BuildContext context) {
+//     // List<String> matchQuery = [];
+//     // for (var name in searchTerms) {
+//     //   if (name.toLowerCase().contains(query.toLowerCase())) {
+//     //     matchQuery.add(name);
+//     //   }
+//     // }
+//     return _buildSearchResults(context);
+//   }
+//
+//   Widget _buildSearchResults(BuildContext context) {
+//     final state = context.read(groupNotifierProvider);
+//     final filteredGroups = state.groups
+//         .where(
+//             (group) => group.name.toLowerCase().contains(query.toLowerCase()))
+//         .toList();
+//
+//     return ListView.builder(
+//       itemCount: filteredGroups.length,
+//       itemBuilder: (context, index) {
+//         final group = filteredGroups[index];
+//         return ListTile(
+//           title: Text(group.name),
+//           subtitle: Text(group.status.toString()),
+//         );
+//       },
+//     );
+//   }
+// }

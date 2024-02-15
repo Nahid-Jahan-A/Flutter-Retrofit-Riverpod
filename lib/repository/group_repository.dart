@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_retrofit/api/api_service.dart';
 import 'package:flutter_retrofit/models/group_data.dart';
 import 'package:logger/logger.dart';
@@ -12,6 +10,7 @@ class GroupRepository {
   Future<GroupData> getGroups() async {
     return _utkorshoApiClientForCS.getGroupData();
   }
+}
 
   Future<CreateGroupResponse> createNewGroup(payload) async {
     Logger logger = Logger();

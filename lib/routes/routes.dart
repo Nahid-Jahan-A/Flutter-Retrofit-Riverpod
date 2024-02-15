@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_retrofit/practice/riverpod_practice.dart';
-import 'package:flutter_retrofit/providers/auth_state_notifier_provider.dart';
 import 'package:flutter_retrofit/providers/token_provider.dart';
 import 'package:flutter_retrofit/screen/class_screen.dart';
 import 'package:flutter_retrofit/screen/groups_screen.dart';
@@ -10,6 +9,8 @@ import 'package:flutter_retrofit/states/auth_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
+import '../providers/auth_state_notifier_provider.dart';
+import '../screen/single_group_screen.dart';
 import '../util/global_values.dart';
 
 class Routes {
@@ -58,12 +59,18 @@ final routes = RouteMap(routes: {
           child: Consumer(builder: (BuildContext context, WidgetRef ref, _) {
         final authState = ref.watch(authNotifierProvider.notifier).state;
         return authState.isAuthenticated
-            ? const ClassScreen()
-            : const ClassScreen();
+            ? const GroupScreen()
+            : const GroupScreen();
       })),
+  // '/groupDetails': (info) => const MaterialPage(
+  //       child: SingleGroupScreen(group: info.pathParameters[],),
+  //     ),
   '/dashboard': (_) => const MaterialPage(
         child: WelcomeScreen(),
       ),
+  // '/add_group': (_) => const MaterialPage(
+  //       child: AddGroup(),
+  //     ),
 });
 
 // final authRouteMap = RouteMap(

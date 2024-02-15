@@ -1,50 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_retrofit/models/group_data.dart';
+import 'package:flutter_retrofit/providers/group_state_notifier_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SingleGroupScreen extends StatelessWidget {
-  final CreateGroupResponse group;
+class SingleGroupScreen extends ConsumerWidget {
+  final String groupId;
 
-  const SingleGroupScreen({super.key, required this.group});
+  const SingleGroupScreen({super.key, required this.groupId});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Group Details'),
       ),
       body: Center(
-        child: Column(
-          children: [
-            Text(
-              'Group Name: ${group.data.name}',
-              style: const TextStyle(
-                color: Colors.amber,
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(height: 15,),
-
-            Text(
-              'Group ID: ${group.data.id}',
-              style: const TextStyle(
-                color: Colors.amber,
-                fontSize: 20,
-              ),
-            ),
-
-            const SizedBox(height: 15,),
-
-            Text(
-              'Group Status: ${group.data.status}',
-              style: const TextStyle(
-                color: Colors.amber,
-                fontSize: 20,
-              ),
-            ),
-          ],
+        child: Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          return Text("");
+        },
         ),
       ),
     );
-    ;
   }
 }

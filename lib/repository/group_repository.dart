@@ -10,7 +10,6 @@ class GroupRepository {
   Future<GroupData> getGroups() async {
     return _utkorshoApiClientForCS.getGroupData();
   }
-}
 
   Future<CreateGroupResponse> createNewGroup(payload) async {
     Logger logger = Logger();
@@ -33,3 +32,6 @@ class GroupRepository {
     return group;
   }
 }
+
+
+

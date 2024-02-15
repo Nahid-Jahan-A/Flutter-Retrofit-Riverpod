@@ -62,9 +62,9 @@ final routes = RouteMap(routes: {
             ? const GroupScreen()
             : const GroupScreen();
       })),
-  // '/groupDetails': (info) => const MaterialPage(
-  //       child: SingleGroupScreen(group: info.pathParameters[],),
-  //     ),
+  '/groupDetails/group': (route) => const MaterialPage(
+        child: SingleGroupScreen(groupId: route.pathParameters['id'],),
+      ),
   '/dashboard': (_) => const MaterialPage(
         child: WelcomeScreen(),
       ),

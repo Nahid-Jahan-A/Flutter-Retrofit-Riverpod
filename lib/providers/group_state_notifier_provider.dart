@@ -7,8 +7,6 @@ import 'group_repository_provider.dart';
 
 final groupNotifierProvider =
 StateNotifierProvider<GroupStateNotifier, GroupState>((ref) {
-  debugPrint("CALLED_ONE");
   final groupRepository = ref.watch(groupRepositoryProvider);
-  debugPrint("CALLED_TWO");
   return GroupStateNotifier(groupRepository);
 });

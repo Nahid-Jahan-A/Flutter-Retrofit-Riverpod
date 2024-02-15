@@ -62,7 +62,7 @@ abstract class UtkorshoApiClientForCS {
   Future<ClassData> getClassData();
   
   @POST(Apis.class_endpoint)
-  Future<ClassData> getClassData(@Body() payload);
+  Future<ClassData> createClass(@Body() payload);
 
 }
 

@@ -1,18 +1,20 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
+import 'meta.dart';
 part 'api_response.freezed.dart';
 part 'api_response.g.dart';
 
+
 @Freezed(genericArgumentFactories: true)
-class ApiResponse<T> with _$ApiResponse<T> {
+class ApiResponse<T> with _$ApiResponse {
   const factory ApiResponse({
-    required T results,
-    required String status,
-    @JsonKey(name: 'error_type') required String errorType,
-    required String message,
-  }) = _ApiResponse;
+    @JsonKey(name: 'success') bool? success,
+    @JsonKey(name: 'data') T? data,
+    @JsonKey(name: 'meta') Meta? meta,
+}) = _ApiResponse;
 
   factory ApiResponse.fromJson(
-      Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
+      Map<String, Object?> json, T Function(Object?) fromJsonT) =>
       _$ApiResponseFromJson(json, fromJsonT);
 }
+
+

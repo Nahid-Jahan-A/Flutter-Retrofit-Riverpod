@@ -21,11 +21,12 @@ ApiResponse<T> _$ApiResponseFromJson<T>(
 
 /// @nodoc
 mixin _$ApiResponse<T> {
-  T get results => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'error_type')
-  String get errorType => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+  @JsonKey(name: 'success')
+  bool? get success => throw _privateConstructorUsedError;
+  @JsonKey(name: 'data')
+  T? get data => throw _privateConstructorUsedError;
+  @JsonKey(name: 'meta')
+  Meta? get meta => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
       throw _privateConstructorUsedError;
@@ -41,10 +42,11 @@ abstract class $ApiResponseCopyWith<T, $Res> {
       _$ApiResponseCopyWithImpl<T, $Res, ApiResponse<T>>;
   @useResult
   $Res call(
-      {T results,
-      String status,
-      @JsonKey(name: 'error_type') String errorType,
-      String message});
+      {@JsonKey(name: 'success') bool? success,
+      @JsonKey(name: 'data') T? data,
+      @JsonKey(name: 'meta') Meta? meta});
+
+  $MetaCopyWith<$Res>? get meta;
 }
 
 /// @nodoc
@@ -60,29 +62,36 @@ class _$ApiResponseCopyWithImpl<T, $Res, $Val extends ApiResponse<T>>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? results = freezed,
-    Object? status = null,
-    Object? errorType = null,
-    Object? message = null,
+    Object? success = freezed,
+    Object? data = freezed,
+    Object? meta = freezed,
   }) {
     return _then(_value.copyWith(
-      results: freezed == results
-          ? _value.results
-          : results // ignore: cast_nullable_to_non_nullable
-              as T,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      errorType: null == errorType
-          ? _value.errorType
-          : errorType // ignore: cast_nullable_to_non_nullable
-              as String,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
+      success: freezed == success
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as T?,
+      meta: freezed == meta
+          ? _value.meta
+          : meta // ignore: cast_nullable_to_non_nullable
+              as Meta?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MetaCopyWith<$Res>? get meta {
+    if (_value.meta == null) {
+      return null;
+    }
+
+    return $MetaCopyWith<$Res>(_value.meta!, (value) {
+      return _then(_value.copyWith(meta: value) as $Val);
+    });
   }
 }
 
@@ -95,10 +104,12 @@ abstract class _$$ApiResponseImplCopyWith<T, $Res>
   @override
   @useResult
   $Res call(
-      {T results,
-      String status,
-      @JsonKey(name: 'error_type') String errorType,
-      String message});
+      {@JsonKey(name: 'success') bool? success,
+      @JsonKey(name: 'data') T? data,
+      @JsonKey(name: 'meta') Meta? meta});
+
+  @override
+  $MetaCopyWith<$Res>? get meta;
 }
 
 /// @nodoc
@@ -112,28 +123,23 @@ class __$$ApiResponseImplCopyWithImpl<T, $Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? results = freezed,
-    Object? status = null,
-    Object? errorType = null,
-    Object? message = null,
+    Object? success = freezed,
+    Object? data = freezed,
+    Object? meta = freezed,
   }) {
     return _then(_$ApiResponseImpl<T>(
-      results: freezed == results
-          ? _value.results
-          : results // ignore: cast_nullable_to_non_nullable
-              as T,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      errorType: null == errorType
-          ? _value.errorType
-          : errorType // ignore: cast_nullable_to_non_nullable
-              as String,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
+      success: freezed == success
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as T?,
+      meta: freezed == meta
+          ? _value.meta
+          : meta // ignore: cast_nullable_to_non_nullable
+              as Meta?,
     ));
   }
 }
@@ -142,28 +148,27 @@ class __$$ApiResponseImplCopyWithImpl<T, $Res>
 @JsonSerializable(genericArgumentFactories: true)
 class _$ApiResponseImpl<T> implements _ApiResponse<T> {
   const _$ApiResponseImpl(
-      {required this.results,
-      required this.status,
-      @JsonKey(name: 'error_type') required this.errorType,
-      required this.message});
+      {@JsonKey(name: 'success') this.success,
+      @JsonKey(name: 'data') this.data,
+      @JsonKey(name: 'meta') this.meta});
 
   factory _$ApiResponseImpl.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
       _$$ApiResponseImplFromJson(json, fromJsonT);
 
   @override
-  final T results;
+  @JsonKey(name: 'success')
+  final bool? success;
   @override
-  final String status;
+  @JsonKey(name: 'data')
+  final T? data;
   @override
-  @JsonKey(name: 'error_type')
-  final String errorType;
-  @override
-  final String message;
+  @JsonKey(name: 'meta')
+  final Meta? meta;
 
   @override
   String toString() {
-    return 'ApiResponse<$T>(results: $results, status: $status, errorType: $errorType, message: $message)';
+    return 'ApiResponse<$T>(success: $success, data: $data, meta: $meta)';
   }
 
   @override
@@ -171,17 +176,15 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ApiResponseImpl<T> &&
-            const DeepCollectionEquality().equals(other.results, results) &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.errorType, errorType) ||
-                other.errorType == errorType) &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.success, success) || other.success == success) &&
+            const DeepCollectionEquality().equals(other.data, data) &&
+            (identical(other.meta, meta) || other.meta == meta));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(results), status, errorType, message);
+  int get hashCode => Object.hash(
+      runtimeType, success, const DeepCollectionEquality().hash(data), meta);
 
   @JsonKey(ignore: true)
   @override
@@ -198,24 +201,23 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
 
 abstract class _ApiResponse<T> implements ApiResponse<T> {
   const factory _ApiResponse(
-      {required final T results,
-      required final String status,
-      @JsonKey(name: 'error_type') required final String errorType,
-      required final String message}) = _$ApiResponseImpl<T>;
+      {@JsonKey(name: 'success') final bool? success,
+      @JsonKey(name: 'data') final T? data,
+      @JsonKey(name: 'meta') final Meta? meta}) = _$ApiResponseImpl<T>;
 
   factory _ApiResponse.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =
       _$ApiResponseImpl<T>.fromJson;
 
   @override
-  T get results;
+  @JsonKey(name: 'success')
+  bool? get success;
   @override
-  String get status;
+  @JsonKey(name: 'data')
+  T? get data;
   @override
-  @JsonKey(name: 'error_type')
-  String get errorType;
-  @override
-  String get message;
+  @JsonKey(name: 'meta')
+  Meta? get meta;
   @override
   @JsonKey(ignore: true)
   _$$ApiResponseImplCopyWith<T, _$ApiResponseImpl<T>> get copyWith =>

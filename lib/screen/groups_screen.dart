@@ -25,6 +25,13 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Groups"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                //showSearch(context: context, delegate: GroupSearchDelegate());
+              },
+              icon: Icon(Icons.search))
+        ],
       ),
       body: Consumer(
         builder: (context, ref, _) {
@@ -41,6 +48,7 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
       ),
     );
   }
+
 
   void _showCreatePostDialog(BuildContext context) {
     showDialog(
@@ -67,10 +75,14 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
                   final groupState = ref.read(groupNotifierProvider.notifier);
                   await groupState.createNewGroup(groupName: text);
                   logger.i(
-                      "Value of group status -----> ${ref.read(groupNotifierProvider).status == GroupStatus.created}");
+                      "Value of group status -----> ${ref
+                          .read(groupNotifierProvider)
+                          .status == GroupStatus.created}");
                   logger.i("Context Mounted?-----------> ${context.mounted}");
                   if (context.mounted &&
-                      ref.read(groupNotifierProvider).status ==
+                      ref
+                          .read(groupNotifierProvider)
+                          .status ==
                           GroupStatus.created) {
                     Navigator.pop(context);
                     groupState.fetchGroupData();
@@ -102,22 +114,34 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
               onTap: () async {
                 Logger logger = Logger();
                 final groupState = ref.watch(groupNotifierProvider.notifier);
+                logger.i("Single group ID -------> ${group.id.toString()}");
                 await groupState.getGroupById(group.id.toString());
-                logger.i("Group state status------> ${ref.watch(groupNotifierProvider).status}");
-                if(ref.watch(groupNotifierProvider).status == GroupStatus.loadedSingle) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SingleGroupScreen(group: group,),
-                    ),
-                  );
+                logger.i("Is Mounted------> ${context.mounted}");
+                logger.i(
+                    "Group state status------> ${ref
+                        .watch(groupNotifierProvider)
+                        .status}");
+                if (ref
+                    .watch(groupNotifierProvider)
+                    .status ==
+                    GroupStatus.loadedSingle) {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) =>
+                  //         SingleGroupScreen(
+                  //           group: group,
+                  //         ),
+                  //   ),
+                  // );
                 }
               },
               title: Text(group.name),
               subtitle: Text(group.status.toString()),
               trailing: IconButton(
                 icon: const Icon(Icons.delete),
-                onPressed: () => _showDeleteConfirmationDialog(context, group.id),
+                onPressed: () =>
+                    _showDeleteConfirmationDialog(context, group.id),
               ),
             );
           },
@@ -144,14 +168,16 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
               child: const Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: () async{
+              onPressed: () async {
                 // final groupState = ref.read(groupNotifierProvider.notifier);
                 // groupState.deleteGroupById(id);
                 debugPrint("DELETE_ID $id");
                 final groupState = ref.read(groupNotifierProvider.notifier);
                 await groupState.deleteGroupById(id.toString());
                 if (context.mounted &&
-                    ref.read(groupNotifierProvider).status ==
+                    ref
+                        .read(groupNotifierProvider)
+                        .status ==
                         GroupStatus.deleted) {
                   Navigator.pop(context);
                   await groupState.fetchGroupData();
@@ -164,4 +190,5 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
       },
     );
   }
+
 }

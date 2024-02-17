@@ -9,13 +9,13 @@ final dioProvider = Provider((ref) => Dio(
 
 final dioInterceptorProvider = Provider((ref) => DioClient().api);
 
-final apiClientProvider = Provider((ref) => ApiClient(ref.watch(dioProvider)));
+final apiClientProvider = Provider((ref) => ApiClient(ref.watch(dioInterceptorProvider)));
 
 final utkorshoApiClientProvider =
     Provider((ref) => UtkorshoApiClient(ref.watch(dioInterceptorProvider)));
 
 final utkorshoApiClientForCSProvider =
-    Provider((ref) => UtkorshoApiClientForCS(ref.watch(dioProvider)));
+    Provider((ref) => UtkorshoApiClientForCS(ref.watch(dioInterceptorProvider)));
 
 final utkorshoApiClientForClassProvider =
-    Provider((ref) => UtkorshoApiClientForCS(ref.watch(dioProvider)));
+    Provider((ref) => UtkorshoApiClientForCS(ref.watch(dioInterceptorProvider)));

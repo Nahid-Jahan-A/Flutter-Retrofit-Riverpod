@@ -62,12 +62,12 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> setAccessToken(String accessToken, String refreshToken) async {
+  Future<void> setAccessToken(String? accessToken, String? refreshToken) async {
     Logger logger = Logger();
-    state = AuthState.authenticated(accessToken);
+    state = AuthState.authenticated(accessToken!);
     final sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString('accessToken', accessToken);
-    await sharedPreferences.setString('refreshToken', refreshToken);
+    await sharedPreferences.setString('refreshToken', refreshToken!);
 
     logger.i("Access Token set ---> ${sharedPreferences.get('accessToken')}");
     logger.i("Refresh Token set ---> ${sharedPreferences.get('refreshToken')}");
@@ -106,9 +106,10 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     try {
       state = state.copyWith(status: AuthStatus.loading);
       final data = await _authRepository.getAuth(payload);
-      logger.i("Access token ${data.data.accessToken.runtimeType}");
+      logger.i("Access token ${data.data?.accessToken.runtimeType}");
       state = state.copyWith(isAuthenticated: true);
-      setAccessToken(data.data.accessToken, data.data.refreshToken);
+      setAccessToken(data.data?.accessToken, data.data?.refreshToken);
+      logger.i("Setting access token and ref token ${data.data?.accessToken}  ref token ${data.data?.refreshToken}");
     } catch (e) {
       state = state.copyWith(status: AuthStatus.error, error: e.toString());
       logger.i(e.toString());

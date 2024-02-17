@@ -59,14 +59,17 @@ final routes = RouteMap(routes: {
           child: Consumer(builder: (BuildContext context, WidgetRef ref, _) {
         final authState = ref.watch(authNotifierProvider.notifier).state;
         return authState.isAuthenticated
-            ? const GroupScreen()
-            : const GroupScreen();
+            ? const WelcomeScreen()
+            : const LoginScreen();
       })),
   // '/groupDetails/group': (route) => const MaterialPage(
   //       child: SingleGroupScreen(groupId: route.pathParameters['id'],),
   //     ),
   '/dashboard': (_) => const MaterialPage(
         child: WelcomeScreen(),
+      ),
+  '/groups': (_) => const MaterialPage(
+        child: GroupScreen(),
       ),
   // '/add_group': (_) => const MaterialPage(
   //       child: AddGroup(),

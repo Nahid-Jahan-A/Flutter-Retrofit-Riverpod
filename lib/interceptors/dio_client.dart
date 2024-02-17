@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
@@ -6,6 +7,7 @@ class DioClient {
   String? accessToken;
 
   DioClient() {
+    Logger logger = Logger();
     api.interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -13,6 +15,7 @@ class DioClient {
       //   options.path = 'http://10.10.10.31:38080${options.path}';
       // }
           accessToken = prefs.getString("accessToken");
+          logger.i("ACCESS TOKEN PRINTING FROM INTERCEPTOR -----> $accessToken");
       if(accessToken != null) {
         options.headers['Authorization'] = 'Bearer $accessToken';
       }

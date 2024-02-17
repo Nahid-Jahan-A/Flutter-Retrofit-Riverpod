@@ -37,6 +37,12 @@ class WelcomeScreen extends ConsumerWidget {
                     child: const Text("Logout"));
               },
             ),
+            ElevatedButton(
+              onPressed: () {
+                Routemaster.of(context).replace('/groups');
+              },
+              child: const Text("Get Groups"),
+            ),
           ],
         ),
       ),

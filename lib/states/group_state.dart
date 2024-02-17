@@ -72,8 +72,8 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
     try {
       state = state.copyWith(status: GroupStatus.loading);
       Map<String, dynamic> payload = {"name": groupName};
-      CreateGroupResponse data = await _groupRepository.createNewGroup(payload);
-      if (data.meta.statusCode == 201) {
+      final data = await _groupRepository.createNewGroup(payload);
+      if (data.meta?.statusCode == 201) {
         logger.i("Newly created group data ----->  ${data.data.name}");
         state = state.copyWith(status: GroupStatus.created);
         logger.i("Group Created Successfully ----->");
@@ -94,13 +94,13 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
 
     try {
       state = state.copyWith(status: GroupStatus.loading);
-      DeleteResponse data = await _groupRepository.deleteGroupById(id);
-      if (data != null && data.meta.statusCode == 200) {
+      final data = await _groupRepository.deleteGroupById(id);
+      if (data.meta?.statusCode == 200) {
         state = state.copyWith(status: GroupStatus.deleted);
         logger.i("Group deleted successfully");
       } else {
         throw Exception(
-            "Failed to delete group. Status code: ${data?.meta.statusCode}");
+            "Failed to delete group. Status code: ${data.meta?.statusCode}");
       }
     } catch (e) {
       logger.e("Error deleting group: $e");
@@ -120,12 +120,12 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
       logger.i("Inside try block");
       state = state.copyWith(status: GroupStatus.loading);
       logger.i("Group status ${state.status}");
-      SingleGroupResponse data =
+      final data =
           await _groupRepository.getGroupByGroupId(id).then((value) {
         logger.i(value);
         return value;
       });
-      if (data.meta.statusCode == 200) {
+      if (data.meta?.statusCode == 200) {
         logger.i("Get group data status ----->  ${data.success}");
         state = state.copyWith(status: GroupStatus.loadedSingle);
       }

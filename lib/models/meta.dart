@@ -1,11 +1,8 @@
-
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'meta.freezed.dart';
 part 'meta.g.dart';
 
 @freezed
-@JsonSerializable()
 class Meta with _$Meta {
   const factory Meta({
     int? statusCode,

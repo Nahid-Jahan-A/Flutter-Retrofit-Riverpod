@@ -1,3 +1,5 @@
+import 'package:flutter_retrofit/models/api_response.dart';
+import 'package:flutter_retrofit/models/auth.dart';
 import 'package:flutter_retrofit/models/auth_data.dart';
 
 import '../api/api_service.dart';
@@ -7,7 +9,7 @@ class AuthRepository {
 
   AuthRepository(this._utkorshoApiClient);
 
-  Future<AuthData> getAuth(payload) async {
+  Future<ApiResponse<Auth>> getAuth(payload) async {
     return _utkorshoApiClient.login(payload);
   }
 }

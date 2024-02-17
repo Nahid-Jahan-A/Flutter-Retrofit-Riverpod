@@ -21,11 +21,8 @@ ApiResponse<T> _$ApiResponseFromJson<T>(
 
 /// @nodoc
 mixin _$ApiResponse<T> {
-  @JsonKey(name: 'success')
   bool? get success => throw _privateConstructorUsedError;
-  @JsonKey(name: 'data')
   T? get data => throw _privateConstructorUsedError;
-  @JsonKey(name: 'meta')
   Meta? get meta => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
@@ -41,10 +38,7 @@ abstract class $ApiResponseCopyWith<T, $Res> {
           ApiResponse<T> value, $Res Function(ApiResponse<T>) then) =
       _$ApiResponseCopyWithImpl<T, $Res, ApiResponse<T>>;
   @useResult
-  $Res call(
-      {@JsonKey(name: 'success') bool? success,
-      @JsonKey(name: 'data') T? data,
-      @JsonKey(name: 'meta') Meta? meta});
+  $Res call({bool? success, T? data, Meta? meta});
 
   $MetaCopyWith<$Res>? get meta;
 }
@@ -103,10 +97,7 @@ abstract class _$$ApiResponseImplCopyWith<T, $Res>
       __$$ApiResponseImplCopyWithImpl<T, $Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'success') bool? success,
-      @JsonKey(name: 'data') T? data,
-      @JsonKey(name: 'meta') Meta? meta});
+  $Res call({bool? success, T? data, Meta? meta});
 
   @override
   $MetaCopyWith<$Res>? get meta;
@@ -147,23 +138,17 @@ class __$$ApiResponseImplCopyWithImpl<T, $Res>
 /// @nodoc
 @JsonSerializable(genericArgumentFactories: true)
 class _$ApiResponseImpl<T> implements _ApiResponse<T> {
-  const _$ApiResponseImpl(
-      {@JsonKey(name: 'success') this.success,
-      @JsonKey(name: 'data') this.data,
-      @JsonKey(name: 'meta') this.meta});
+  const _$ApiResponseImpl({this.success, this.data, this.meta});
 
   factory _$ApiResponseImpl.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
       _$$ApiResponseImplFromJson(json, fromJsonT);
 
   @override
-  @JsonKey(name: 'success')
   final bool? success;
   @override
-  @JsonKey(name: 'data')
   final T? data;
   @override
-  @JsonKey(name: 'meta')
   final Meta? meta;
 
   @override
@@ -201,22 +186,19 @@ class _$ApiResponseImpl<T> implements _ApiResponse<T> {
 
 abstract class _ApiResponse<T> implements ApiResponse<T> {
   const factory _ApiResponse(
-      {@JsonKey(name: 'success') final bool? success,
-      @JsonKey(name: 'data') final T? data,
-      @JsonKey(name: 'meta') final Meta? meta}) = _$ApiResponseImpl<T>;
+      {final bool? success,
+      final T? data,
+      final Meta? meta}) = _$ApiResponseImpl<T>;
 
   factory _ApiResponse.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =
       _$ApiResponseImpl<T>.fromJson;
 
   @override
-  @JsonKey(name: 'success')
   bool? get success;
   @override
-  @JsonKey(name: 'data')
   T? get data;
   @override
-  @JsonKey(name: 'meta')
   Meta? get meta;
   @override
   @JsonKey(ignore: true)

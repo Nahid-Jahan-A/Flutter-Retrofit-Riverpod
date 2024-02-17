@@ -95,13 +95,13 @@ class _UtkorshoApiClientForCS implements UtkorshoApiClientForCS {
   String? baseUrl;
 
   @override
-  Future<GroupData> getGroupData() async {
+  Future<ApiResponse<List<Group>>> getGroupData() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<GroupData>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ApiResponse<List<Group>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -117,18 +117,25 @@ class _UtkorshoApiClientForCS implements UtkorshoApiClientForCS {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = GroupData.fromJson(_result.data!);
+    final value = ApiResponse<List<Group>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Group>((i) => Group.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
     return value;
   }
 
   @override
-  Future<CreateGroupResponse> addGroup(dynamic group) async {
+  Future<ApiResponse<Group>> addGroup(dynamic group) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = group;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CreateGroupResponse>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ApiResponse<Group>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -144,18 +151,21 @@ class _UtkorshoApiClientForCS implements UtkorshoApiClientForCS {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CreateGroupResponse.fromJson(_result.data!);
+    final value = ApiResponse<Group>.fromJson(
+      _result.data!,
+      (json) => Group.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 
   @override
-  Future<DeleteResponse> deleteGroup(String groupId) async {
+  Future<ApiResponse<dynamic>> deleteGroup(String groupId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<DeleteResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ApiResponse<dynamic>>(Options(
       method: 'DELETE',
       headers: _headers,
       extra: _extra,
@@ -171,18 +181,21 @@ class _UtkorshoApiClientForCS implements UtkorshoApiClientForCS {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = DeleteResponse.fromJson(_result.data!);
+    final value = ApiResponse<dynamic>.fromJson(
+      _result.data!,
+      (json) => json as dynamic,
+    );
     return value;
   }
 
   @override
-  Future<SingleGroupResponse> getGroupByGroupId(String groupId) async {
+  Future<ApiResponse<Group>> getGroupByGroupId(String groupId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<SingleGroupResponse>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ApiResponse<Group>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -198,18 +211,21 @@ class _UtkorshoApiClientForCS implements UtkorshoApiClientForCS {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = SingleGroupResponse.fromJson(_result.data!);
+    final value = ApiResponse<Group>.fromJson(
+      _result.data!,
+      (json) => Group.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 
   @override
-  Future<ClassData> getClassData() async {
+  Future<ApiResponse<List<ClassData>>> getClassData() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<ClassData>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ApiResponse<List<ClassData>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -225,7 +241,15 @@ class _UtkorshoApiClientForCS implements UtkorshoApiClientForCS {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = ClassData.fromJson(_result.data!);
+    final value = ApiResponse<List<ClassData>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<ClassData>(
+                  (i) => ClassData.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
     return value;
   }
 
@@ -302,13 +326,13 @@ class _UtkorshoApiClient implements UtkorshoApiClient {
   String? baseUrl;
 
   @override
-  Future<AuthData> login(dynamic payload) async {
+  Future<ApiResponse<Auth>> login(dynamic payload) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = payload;
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<AuthData>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ApiResponse<Auth>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -324,7 +348,10 @@ class _UtkorshoApiClient implements UtkorshoApiClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = AuthData.fromJson(_result.data!);
+    final value = ApiResponse<Auth>.fromJson(
+      _result.data!,
+      (json) => Auth.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 

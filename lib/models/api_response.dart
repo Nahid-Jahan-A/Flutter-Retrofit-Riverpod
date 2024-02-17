@@ -7,9 +7,9 @@ part 'api_response.g.dart';
 @Freezed(genericArgumentFactories: true)
 class ApiResponse<T> with _$ApiResponse {
   const factory ApiResponse({
-    @JsonKey(name: 'success') bool? success,
-    @JsonKey(name: 'data') T? data,
-    @JsonKey(name: 'meta') Meta? meta,
+    bool? success,
+    T? data,
+    Meta? meta,
 }) = _ApiResponse;
 
   factory ApiResponse.fromJson(

@@ -29,9 +29,9 @@ Widget _buildContent(ClassState state) {
       return const Center(child: CircularProgressIndicator());
     case ClassStatus.loaded:
       return ListView.builder(
-        itemCount: state.classes.length,
+        itemCount: state.data.length,
         itemBuilder: (context, index) {
-          final classes = state.classes[index];
+          final classes = state.data[index];
           return ListTile(
             title: Text(classes.classTitleEnglish),
             subtitle: Text(classes.status),

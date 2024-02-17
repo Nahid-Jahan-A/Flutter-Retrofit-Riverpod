@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_retrofit/model_practice/post.dart';
-import 'package:flutter_retrofit/models/auth_data.dart';
-import 'package:flutter_retrofit/models/class.dart';
-import 'package:flutter_retrofit/models/group_data.dart';
+import 'package:flutter_retrofit/models/api_response.dart';
+import 'package:flutter_retrofit/models/auth.dart';
+import 'package:flutter_retrofit/models/class_data.dart';
 import 'package:retrofit/http.dart';
 
+import '../models/group.dart';
 import '../util/apis.dart';
 
 part 'api_service.g.dart';
@@ -22,19 +23,19 @@ abstract class UtkorshoApiClientForCS {
   factory UtkorshoApiClientForCS(Dio dio, {String baseUrl}) = _UtkorshoApiClientForCS;
 
   @GET(Apis.group_endpoint)
-  Future<GroupData> getGroupData();
+  Future<ApiResponse<List<Group>>> getGroupData();
 
   @POST(Apis.add_group_endpoint)
-  Future<CreateGroupResponse> addGroup(@Body() group);
+  Future<ApiResponse<Group>> addGroup(@Body() group);
 
   @DELETE(Apis.delete_group_endpoint)
-  Future<DeleteResponse> deleteGroup(@Path("groupId") String groupId);
+  Future<ApiResponse> deleteGroup(@Path("groupId") String groupId);
 
   @GET(Apis.get_single_group_endpoint)
-  Future<SingleGroupResponse> getGroupByGroupId(@Path("groupId") String groupId);
+  Future<ApiResponse<Group>> getGroupByGroupId(@Path("groupId") String groupId);
   
   @GET(Apis.class_endpoint)
-  Future<ClassData> getClassData();
+  Future<ApiResponse<List<ClassData>>> getClassData();
   
   @POST(Apis.class_endpoint)
   Future<ClassData> createClass(@Body() payload);
@@ -46,6 +47,6 @@ abstract class UtkorshoApiClient {
   factory UtkorshoApiClient(Dio dio, {String baseUrl}) = _UtkorshoApiClient;
 
   @POST(Apis.auth_endpoint)
-  Future<AuthData> login(@Body() payload);
+  Future<ApiResponse<Auth>> login(@Body() payload);
 }
 

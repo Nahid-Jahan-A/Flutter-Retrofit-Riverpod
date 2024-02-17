@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_retrofit/api/api_service.dart';
-import 'package:flutter_retrofit/models/auth_data.dart';
 import 'package:flutter_retrofit/providers/dio_provider.dart';
 import 'package:flutter_retrofit/repository/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

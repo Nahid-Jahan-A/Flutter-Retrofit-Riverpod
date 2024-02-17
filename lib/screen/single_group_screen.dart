@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_retrofit/models/group_data.dart';
 import 'package:flutter_retrofit/providers/group_state_notifier_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

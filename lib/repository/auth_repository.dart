@@ -1,6 +1,5 @@
 import 'package:flutter_retrofit/models/api_response.dart';
 import 'package:flutter_retrofit/models/auth.dart';
-import 'package:flutter_retrofit/models/auth_data.dart';
 
 import '../api/api_service.dart';
 

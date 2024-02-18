@@ -28,6 +28,9 @@ abstract class UtkorshoApiClientForCS {
   @POST(Apis.add_group_endpoint)
   Future<ApiResponse<Group>> addGroup(@Body() group);
 
+  @PUT(Apis.edit_group_endpoint)
+  Future<ApiResponse<Group>> editGroup(@Path("groupId") groupId, @Body() groupName);
+
   @DELETE(Apis.delete_group_endpoint)
   Future<ApiResponse> deleteGroup(@Path("groupId") String groupId);
 
@@ -46,7 +49,7 @@ abstract class UtkorshoApiClientForCS {
 abstract class UtkorshoApiClient {
   factory UtkorshoApiClient(Dio dio, {String baseUrl}) = _UtkorshoApiClient;
 
-  @POST(Apis.auth_endpoint)
+  @POST(Apis.auth_login)
   Future<ApiResponse<Auth>> login(@Body() payload);
 }
 

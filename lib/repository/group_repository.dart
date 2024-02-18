@@ -27,6 +27,13 @@ class GroupRepository {
     return metaData;
   }
 
+  Future<ApiResponse> editGroupById(String id, payload) async{
+    Logger logger = Logger();
+    logger.i("Logging from delete group method -----> $id");
+    final metaData = await _utkorshoApiClientForCS.editGroup(id, payload);
+    return metaData;
+  }
+
   Future<ApiResponse<Group>> getGroupByGroupId(id) async{
     Logger logger = Logger();
     logger.i("Logging from get single group method -----> $id");

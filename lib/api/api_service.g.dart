@@ -159,6 +159,39 @@ class _UtkorshoApiClientForCS implements UtkorshoApiClientForCS {
   }
 
   @override
+  Future<ApiResponse<Group>> editGroup(
+    dynamic groupId,
+    dynamic groupName,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = groupName;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ApiResponse<Group>>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'api/v1/groups/${groupId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ApiResponse<Group>.fromJson(
+      _result.data!,
+      (json) => Group.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<ApiResponse<dynamic>> deleteGroup(String groupId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

@@ -107,6 +107,29 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
     }
   }
 
+  Future<void> editGroupById(String id, groupName) async {
+    Logger logger = Logger();
+    Map<String, dynamic> payload = {"name": groupName};
+
+    logger.i(
+        "================================ Inside edit group method ========================================");
+
+    try {
+      state = state.copyWith(status: GroupStatus.loading);
+      final data = await _groupRepository.editGroupById(id, payload);
+      if (data.meta?.statusCode == 200) {
+        state = state.copyWith(status: GroupStatus.updated);
+        logger.i("Group edited successfully");
+      } else {
+        throw Exception(
+            "Failed to edit group. Status code: ${data.meta?.statusCode}");
+      }
+    } catch (e) {
+      logger.e("Error editing group: $e");
+      state = state.copyWith(status: GroupStatus.error);
+    }
+  }
+
   Future<void> getGroupById(id) async {
     Logger logger = Logger();
 

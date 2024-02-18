@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_retrofit/interceptors/dio_client.dart';
 import 'package:flutter_retrofit/providers/auth_state_notifier_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:routemaster/routemaster.dart';
-
-import '../states/auth_state.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -24,15 +22,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  void _handleLoginClick() {
+  void _handleLoginClick() async {
+    Logger logger = Logger();
     final notifier = ref.read(authNotifierProvider.notifier);
     String loginId = _loginIdController.text.trim();
     String password = _passwordController.text.trim();
-    notifier.fetchAuthData(
-      loginId: loginId,
-      password: password,
-    );
-    Routemaster.of(context).replace('/dashboard');
+    if (loginId.isNotEmpty && password.isNotEmpty) {
+      await notifier.fetchAuthData(
+        loginId: loginId,
+        password: password,
+      );
+      logger.i(
+          "Checking auth status isAuthenticated on click ------> ${ref.read(authNotifierProvider.notifier).state.isAuthenticated}");
+      if (ref.read(authNotifierProvider.notifier).state.isAuthenticated ==
+          true) {
+        Routemaster.of(context).replace('/dashboard');
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter group name'),
+        ),
+      );
+    }
   }
 
   @override

@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_retrofit/practice/riverpod_practice.dart';
-import 'package:flutter_retrofit/providers/token_provider.dart';
-import 'package:flutter_retrofit/screen/class_screen.dart';
 import 'package:flutter_retrofit/screen/groups_screen.dart';
 import 'package:flutter_retrofit/screen/login_screen.dart';
 import 'package:flutter_retrofit/screen/welcome_screen.dart';
-import 'package:flutter_retrofit/states/auth_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
 import '../providers/auth_state_notifier_provider.dart';
-import '../screen/single_group_screen.dart';
-import '../util/global_values.dart';
 
 class Routes {
   static const String dashboard = '/';

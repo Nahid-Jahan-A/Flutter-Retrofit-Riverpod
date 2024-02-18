@@ -107,8 +107,9 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(status: AuthStatus.loading);
       final data = await _authRepository.getAuth(payload);
       logger.i("Access token ${data.data?.accessToken.runtimeType}");
-      state = state.copyWith(isAuthenticated: true);
+      state = state.copyWith(isAuthenticated: true, status: AuthStatus.loaded);
       setAccessToken(data.data?.accessToken, data.data?.refreshToken);
+      logger.i("Auth status update inside state ----> ${state.status}");
       logger.i("Setting access token and ref token ${data.data?.accessToken}  ref token ${data.data?.refreshToken}");
     } catch (e) {
       state = state.copyWith(status: AuthStatus.error, error: e.toString());

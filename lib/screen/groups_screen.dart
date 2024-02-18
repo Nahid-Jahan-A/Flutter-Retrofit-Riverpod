@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_retrofit/providers/group_state_notifier_provider.dart';
-import 'package:flutter_retrofit/repository/post_state.dart';
-import 'package:flutter_retrofit/screen/single_group_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:riverpod_context/riverpod_context.dart';
-import 'package:routemaster/routemaster.dart';
 
-import '../providers/group_repository_provider.dart';
 import '../states/group_state.dart';
 
 class GroupScreen extends ConsumerStatefulWidget {
@@ -101,6 +96,59 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
     );
   }
 
+
+  void _showEditPostDialog(BuildContext context, id) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit Group'),
+          content: TextField(
+            controller: _groupNameController,
+            decoration: const InputDecoration(labelText: 'Enter group name'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                Logger logger = Logger();
+                logger.i("Group ID -----> $id");
+                final text = _groupNameController.text.trim();
+                if (text.isNotEmpty) {
+                  final groupState = ref.read(groupNotifierProvider.notifier);
+                  await groupState.editGroupById(id, text);
+                  logger.i(
+                      "[-EDIT-] Value of group status -----> ${ref
+                          .read(groupNotifierProvider)
+                          .status == GroupStatus.created}");
+                  logger.i("[-EDIT-]  Context Mounted?-----------> ${context.mounted}");
+                  if (context.mounted &&
+                      ref
+                          .read(groupNotifierProvider)
+                          .status ==
+                          GroupStatus.updated) {
+                    Navigator.pop(context);
+                    groupState.fetchGroupData();
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter group name')),
+                  );
+                }
+              },
+              child: const Text('Submit'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildContent(GroupState state) {
     switch (state.status) {
       case GroupStatus.loading:
@@ -138,10 +186,23 @@ class _GroupScreen extends ConsumerState<GroupScreen> {
               },
               title: Text(group.name),
               subtitle: Text(group.status.toString()),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () =>
-                    _showDeleteConfirmationDialog(context, group.id),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      Logger logger = Logger();
+                      logger.i("Group id -------> ${group.id}");
+                      _showEditPostDialog(context, group.id);
+                    }
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () =>
+                        _showDeleteConfirmationDialog(context, group.id),
+                  ),
+                ],
               ),
             );
           },
